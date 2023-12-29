@@ -1,13 +1,23 @@
 
 import express from 'express'
 
+interface Options {
+  PORT?: number;
+  PUBLIC_PATH?: string;
+}
 export class Server {
 
 
   private app = express();
-  private port = 3000;
+  private readonly port: number;
+  private readonly publicPath: string;
 
 
+  constructor(options: Options) {
+    const { PORT, PUBLIC_PATH } = options;
+    this.port = PORT || 3000;
+    this.publicPath = PUBLIC_PATH || './public';
+  }
 
 
 
@@ -17,7 +27,7 @@ export class Server {
     // Middlewares
 
     // Public Folder
-    this.app.use(express.static('public'));
+    this.app.use(express.static(this.publicPath));
 
 
     this.app.get('*', (req, res) => {
