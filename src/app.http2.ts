@@ -2,8 +2,8 @@ import http2 from 'http2'
 import fs from 'fs'
 
 const server = http2.createSecureServer({
-  key: fs.readFileSync('./keys/server.key'),
-  cert: fs.readFileSync('./keys/server.crt')
+  key: fs.readFileSync('./secret/server.key'),
+  cert: fs.readFileSync('./secret/server.crt')
 }, (req, res) => {
 
 
