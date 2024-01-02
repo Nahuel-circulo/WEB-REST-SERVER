@@ -36,7 +36,7 @@ export class TodosController {
         error: 'ID argument is not a number'
       })
     }
-    const todo = await prisma.todo.findUnique({
+    const todo = await prisma.todo.findFirst({
       where: {
         id
       }
@@ -67,7 +67,7 @@ export class TodosController {
     const id = +req.params.id;
     if (isNaN(id)) return res.status(400).json({ error: 'ID argument is not a number' });
 
-    const todo = await prisma.todo.findUnique({
+    const todo = await prisma.todo.findFirst({
       where: {
         id
       }
@@ -91,14 +91,24 @@ export class TodosController {
 
   }
 
-  public deleteTodo = (req: Request, res: Response) => {
+  public deleteTodo = async (req: Request, res: Response) => {
     const id = +req.params.id;
 
-    const todo = todos.find(todo => todo.id === id);
+    const todo = await prisma.todo.findFirst({
+      where: {
+        id
+      }
+    });
+
     if (!todo) return res.status(404).json({ error: `Todo with id ${id} not found` });
 
-    todos.splice(todos.indexOf(todo), 1);
-    res.json(todo);
+    const deleted = await prisma.todo.delete({
+      where: {
+        id
+      }
+    })
+
+    res.json({ todo, deleted });
 
   }
 
