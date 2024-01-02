@@ -82,7 +82,7 @@ export class TodosController {
         id
       },
       data: {
-        completedAt,
+        completedAt: (completedAt) ? new Date(completedAt) : null,
         text
       }
     })
