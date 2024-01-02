@@ -4,17 +4,17 @@ const todos = [
   {
     id: 1,
     text: 'Learn Docker',
-    createdAt: new Date()
+    completedAt: new Date()
   },
   {
     id: 2,
     text: 'Learn CI/CD',
-    createdAt: new Date()
+    completedAt: null
   },
   {
     id: 3,
     text: 'Learn SVG Animations',
-    createdAt: new Date()
+    completedAt: new Date()
   },
 ]
 
@@ -41,6 +41,20 @@ export class TodosController {
       })
     }
     return res.json(todo)
+  }
+
+  public createTodo = (req: Request, res: Response) => {
+    const { text } = req.body;
+    if ( !text ) return res.status( 400 ).json( { error: 'Text property is required' } );
+    const newTodo = {
+      id: todos.length + 1,
+      text: text,
+      completedAt: null
+    };
+
+    todos.push( newTodo );
+
+    res.json( newTodo );
   }
 
 }
