@@ -1,24 +1,6 @@
 import { Request, Response } from "express"
 import { prisma } from "../../data/postgres"
-import { CreateTodoDto } from "../../domain/dtos"
-
-const todos = [
-  {
-    id: 1,
-    text: 'Learn Docker',
-    completedAt: new Date()
-  },
-  {
-    id: 2,
-    text: 'Learn CI/CD',
-    completedAt: null
-  },
-  {
-    id: 3,
-    text: 'Learn SVG Animations',
-    completedAt: new Date()
-  },
-]
+import { CreateTodoDto, UpdateTodoDto } from "../../domain/dtos"
 
 export class TodosController {
 
@@ -66,7 +48,11 @@ export class TodosController {
 
   public updateTodo = async (req: Request, res: Response) => {
     const id = +req.params.id;
-    if (isNaN(id)) return res.status(400).json({ error: 'ID argument is not a number' });
+    const [error, updateTodoDto] = UpdateTodoDto.create({ ...req.body, id })
+
+    if (error) {
+      return res.status(400).json({ error });
+    }
 
     const todo = await prisma.todo.findFirst({
       where: {
@@ -74,21 +60,17 @@ export class TodosController {
       }
     })
 
+    console.log(req.body)
     if (!todo) return res.status(404).json({ error: `Todo with id ${id} not found` });
-
-    const { text, completedAt } = req.body;
 
     const updatedTodo = await prisma.todo.update({
       where: {
         id
       },
-      data: {
-        completedAt: (completedAt) ? new Date(completedAt) : null,
-        text
-      }
+      data: updateTodoDto!.values
     })
 
-    res.json(updatedTodo);
+    return res.json(updatedTodo);
 
   }
 
