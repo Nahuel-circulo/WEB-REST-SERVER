@@ -106,9 +106,11 @@ export class TodosController {
       where: {
         id
       }
-    })
+    });
 
-    res.json({ todo, deleted });
+    (deleted)
+      ? res.json({ message: `Todo with id ${id} deleted` })
+      : res.status(500).json({ error: `Todo with id ${id} do not exist` });
 
   }
 
