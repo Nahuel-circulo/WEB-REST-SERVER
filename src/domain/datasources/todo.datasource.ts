@@ -1,4 +1,4 @@
-import { CreateTodoDto } from "../dtos";
+import { CreateTodoDto, UpdateTodoDto } from "../dtos";
 import { TodoEntity } from "../entities/todo.entity";
 
 export abstract class TodoDatasource {
@@ -8,10 +8,10 @@ export abstract class TodoDatasource {
   //TODO: paginacion
   abstract getAll(): Promise<TodoEntity[]>;
 
-  abstract getById(id: string): Promise<TodoEntity>;
+  abstract getById(id: number): Promise<TodoEntity>;
 
-  abstract updateById(id: string, updateTodoDto: CreateTodoDto): Promise<TodoEntity>;
+  abstract updateById( updateTodoDto: UpdateTodoDto): Promise<TodoEntity>;
   
-  abstract deleteById(id: string): Promise<TodoEntity>;
+  abstract deleteById(id: number): Promise<TodoEntity>;
 
 }
