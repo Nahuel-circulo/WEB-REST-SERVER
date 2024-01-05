@@ -51,7 +51,7 @@ export class TodosController {
 
   }
 
-  public deleteTodo = async (req: Request, res: Response) => {
+  public deleteTodo = (req: Request, res: Response) => {
     const id = +req.params.id;
     
     new DeleteTodo(this.todoRepository).execute(id)
