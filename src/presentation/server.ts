@@ -1,7 +1,7 @@
 
 import express, { Router } from 'express'
 import path from 'path';
-
+import compression from 'compression'
 interface Options {
   PORT?: number;
   PUBLIC_PATH?: string;
@@ -29,7 +29,7 @@ export class Server {
 
 
     // Middlewares
-
+    this.app.use(compression()); //gzip compression
     this.app.use(express.json()); //raw
     this.app.use(express.urlencoded({extended:true})); //url encoded
 
