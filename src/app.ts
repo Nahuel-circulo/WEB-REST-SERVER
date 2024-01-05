@@ -5,17 +5,16 @@ import { Server } from "./presentation/server"
 
 
 (async () => {
-
   main()
 })()
 
 function main() {
+
   const server = new Server({
-    PORT: envs.PORT,
-    PUBLIC_PATH: envs.PUBLIC_PATH,
+    port: envs.PORT,
+    public_path: envs.PUBLIC_PATH,
     routes: AppRoutes.routes
   })
+
   server.start();
-
-
 }
