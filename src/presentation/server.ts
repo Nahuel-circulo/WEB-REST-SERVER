@@ -3,8 +3,8 @@ import express, { Router } from 'express'
 import path from 'path';
 import compression from 'compression'
 interface Options {
-  PORT?: number;
-  PUBLIC_PATH?: string;
+  port?: number;
+  public_path?: string;
   routes: Router;
 }
 export class Server {
@@ -17,7 +17,7 @@ export class Server {
 
 
   constructor(options: Options) {
-    const { PORT, PUBLIC_PATH, routes } = options;
+    const { port: PORT, public_path: PUBLIC_PATH, routes } = options;
     this.port = PORT || 3000;
     this.publicPath = PUBLIC_PATH || './public';
     this.routes = routes;
