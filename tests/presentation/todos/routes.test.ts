@@ -46,7 +46,7 @@ describe('todos/routes.ts', () => {
   test('should return a TODO api/todo/:id', async () => {
 
     const todo = await prisma.todo.create({
-      data: {...todo1,id:1}
+      data: todo1
     })
 
     const { body } = await request(testServer.app)
@@ -59,6 +59,20 @@ describe('todos/routes.ts', () => {
       text: todo1.text,
       completedAt: null,
     })
+
+  })
+
+  test('should return a 404 NotFound api/todo/:id', async () => {
+
+    const todoID = 999;
+    const { body } = await request(testServer.app)
+      .get(`/api/todos/${todoID}`)
+      .expect(400);
+
+
+    expect(body).toEqual({ error: `Todo with id ${todoID} not found` })
+
+
 
   })
 
