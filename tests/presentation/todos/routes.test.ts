@@ -1,7 +1,6 @@
 import request from 'supertest'
 import { testServer } from '../../test-server'
 import { prisma } from '../../../src/data/postgres'
-import { response } from 'express'
 
 describe('todos/routes.ts', () => {
 
@@ -23,8 +22,6 @@ describe('todos/routes.ts', () => {
 
   test('should return all todos api/todos', async () => {
 
-
-
     await prisma.todo.createMany({
       data: [todo1, todo2]
     })
@@ -32,7 +29,6 @@ describe('todos/routes.ts', () => {
     const { body } = await request(testServer.app)
       .get('/api/todos')
       .expect(200);
-
 
     expect(body).toBeInstanceOf(Array);
     expect(body.length).toBe(2);
@@ -53,7 +49,6 @@ describe('todos/routes.ts', () => {
       .get(`/api/todos/${todo.id}`)
       .expect(200);
 
-
     expect(body).toEqual({
       id: todo.id,
       text: todo1.text,
@@ -69,10 +64,7 @@ describe('todos/routes.ts', () => {
       .get(`/api/todos/${todoID}`)
       .expect(400);
 
-
     expect(body).toEqual({ error: `Todo with id ${todoID} not found` })
-
-
 
   })
 
