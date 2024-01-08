@@ -6,19 +6,20 @@ describe('todos/routes.ts', () => {
 
 
   beforeAll(async () => {
-    await testServer.start()
-  })
+    await testServer.start();
+  });
 
   afterAll(() => {
-    testServer.close()
-  })
+    testServer.close();
+  });
 
   beforeEach(async () => {
     await prisma.todo.deleteMany();
-  })
+  });
 
-  const todo1 = { text: 'Hola Mundo 1' }
-  const todo2 = { text: 'Hola Mundo 2' }
+  const todo1 = { text: 'Hola Mundo 1' };
+  const todo2 = { text: 'Hola Mundo 2' };
+
 
   test('should return all todos api/todos', async () => {
 
@@ -62,7 +63,7 @@ describe('todos/routes.ts', () => {
     const todoID = 999;
     const { body } = await request(testServer.app)
       .get(`/api/todos/${todoID}`)
-      .expect(400);
+      .expect(404);
 
     expect(body).toEqual({ error: `Todo with id ${todoID} not found` })
 
@@ -131,7 +132,7 @@ describe('todos/routes.ts', () => {
     const { body } = await request(testServer.app)
       .put(`/api/todos/999`)
       .send({ text: 'Hola mundo UPDATE', completedAt: '2023-10-21' })
-      .expect(400);
+      .expect(404);
 
     expect(body).toEqual({ error: 'Todo with id 999 not found' });
 
@@ -155,33 +156,33 @@ describe('todos/routes.ts', () => {
 
   });
 
-  test( 'should delete a TODO api/todos/:id', async () => {
+  test('should delete a TODO api/todos/:id', async () => {
 
-    const todo = await prisma.todo.create( { data: todo1 } );
+    const todo = await prisma.todo.create({ data: todo1 });
 
-    const { body } = await request( testServer.app )
-      .delete( `/api/todos/${ todo.id }` )
-      .expect( 200 );
+    const { body } = await request(testServer.app)
+      .delete(`/api/todos/${todo.id}`)
+      .expect(200);
 
-    expect( body ).toEqual( {
-      id: expect.any( Number ),
+    expect(body).toEqual({
+      id: expect.any(Number),
       text: todo.text,
       completedAt: null
-    } );
+    });
 
-  } );
+  });
 
   // TODO: cambiar a 404
-  test( 'should return 404 if todo do not exist api/todos/:id', async () => {
+  test('should return 404 if todo do not exist api/todos/:id', async () => {
 
 
-    const { body } = await request( testServer.app )
-      .delete( `/api/todos/999` )
-      .expect( 400 );
+    const { body } = await request(testServer.app)
+      .delete(`/api/todos/999`)
+      .expect(404);
 
-    expect( body ).toEqual( { error: 'Todo with id 999 not found' } );
+    expect(body).toEqual({ error: 'Todo with id 999 not found' });
 
-  } );
+  });
 
 
 
