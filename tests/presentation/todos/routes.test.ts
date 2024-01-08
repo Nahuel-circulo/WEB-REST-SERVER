@@ -68,4 +68,43 @@ describe('todos/routes.ts', () => {
 
   })
 
+  test('should create a TODO api/todo', async () => {
+
+
+    const { body } = await request(testServer.app)
+      .post('/api/todos')
+      .send(todo1)
+      .expect(201);
+
+    expect(body).toEqual({
+      id: expect.any(Number),
+      text: todo1.text,
+      completedAt: null,
+    })
+
+  })
+
+
+  test('should return error if text is not present on Create todo', async () => {
+
+    const { body } = await request(testServer.app)
+      .post('/api/todos')
+      .send({})
+      .expect(400);
+
+    expect(body).toEqual({ error: 'text is required' })
+
+  })
+
+  test('should return error if text is empty on Create todo', async () => {
+
+    const { body } = await request(testServer.app)
+      .post('/api/todos')
+      .send({text:''})
+      .expect(400);
+
+    expect(body).toEqual({ error: 'text is required' })
+
+  })
+
 })
