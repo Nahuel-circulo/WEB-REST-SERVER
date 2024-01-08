@@ -10,7 +10,7 @@ export interface GetTodosUseCase {
 export class GetTodos implements GetTodosUseCase {
   constructor(private todoRepository: TodoRepository) { }
 
-  async execute(): Promise<TodoEntity[]> {
+  execute(): Promise<TodoEntity[]> {
     return this.todoRepository.getAll()
   }
 }

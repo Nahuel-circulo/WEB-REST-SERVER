@@ -10,7 +10,7 @@ export interface CreateTodoUseCase {
 export class CreateTodo implements CreateTodoUseCase {
   constructor(private todoRepository: TodoRepository) { }
 
-  async execute(dto: CreateTodoDto): Promise<TodoEntity> {
+  execute(dto: CreateTodoDto): Promise<TodoEntity> {
     return this.todoRepository.create(dto)
   }
 }

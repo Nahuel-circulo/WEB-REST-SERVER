@@ -10,7 +10,7 @@ export class DeleteTodo implements DeleteTodoUseCase {
   constructor(
     private readonly todoRepository: TodoRepository) { }
 
-  async execute(id:number): Promise<TodoEntity> {
+  execute(id:number): Promise<TodoEntity> {
     return this.todoRepository.deleteById(id)
   }
 }

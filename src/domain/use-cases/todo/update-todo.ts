@@ -10,7 +10,7 @@ export interface UpdateTodoUseCase {
 export class UpdateTodo implements UpdateTodoUseCase {
   constructor(private todoRepository: TodoRepository) { }
 
-  async execute(dto: UpdateTodoDto): Promise<TodoEntity> {
+  execute(dto: UpdateTodoDto): Promise<TodoEntity> {
     return this.todoRepository.updateById(dto)
   }
 }
